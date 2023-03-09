@@ -2,3 +2,6 @@
 .DS_Store
 .vscode/settings.json
 .tmp
+
+tests/
+contest.acc.json
