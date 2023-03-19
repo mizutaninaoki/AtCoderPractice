@@ -1,4 +1,6 @@
 # 入力をint型を要素とした配列として受け取る
+import math
+import collections
 from collections import defaultdict
 import heapq
 import itertools
@@ -7,7 +9,7 @@ import bisect
 # インポートセット
 from bisect import bisect_left, bisect_right
 from collections import defaultdict, deque
-from heapq import heappop, heappush
+from heapq import heapify, heappop, heappush
 from itertools import groupby
 from math import ceil, cos, floor, gcd, radians, sin, tan
 from sys import setrecursionlimit
@@ -68,19 +70,70 @@ for (x, y) in itertools.zip_longest('abc', '12', fillvalue='O'):
 # c O
 
 
-# ------------------------------------------
-# heapq
-# ------------------------------------------
+# ------------------------------------------------------------------
+# heapq(# 優先度付きキュー)(heapqはリストから値を取得、削除を高速化する)
+# ------------------------------------------------------------------
+# 参考：https://kakedashi-engineer.appspot.com/2020/03/18/heapq/
 # リストの最大値・最小値から順にn個の要素を取得したい場合、 heapqモジュールを使う方法もある。
 # heapqモジュールの関数nlargest(), nsmallest()を使う。この場合、元のリストは変更されない。
 # 第一引数に取得する要素の個数、第二引数に対象とするイテラブル（リストなど）を指定する。
 l = [3, 6, 7, -1, 23, -10, 18]
+# まずはheapの構築を行う必要があります
+heapq.heapify(l)  # リストを優先度付きキューへ
+# ヒープ化したlを出力
+print(l)
+# [-10, -1, 3, 6, 23, 7, 18]
+
+# 順番が入れ替わっていますね。
+# リストAはヒープと呼ばれるデータ構造（正確には、Pythonではある規則に従って並び替えられたリスト）となっています。
+# ただし、ソートされているわけではありません。
+# この時heap[0]で最小値を取得することができます。
+
+print(heapq.heappop(l))  # 最小値の取り出し
+# 出力: -10 (l の最小値)
+print(l)
+# 出力: [-1, 3, 6, 23, 7, 18] (最小値を取り出した後の l)
+
+heapq.heappush(l, -2)  # 要素の挿入
+print(l)
+# 出力: [-2, -1, 3, 6, 23, 7, 18]   (-2 を挿入後の l)
+
+
+# 最大値の取り出し
+# heapqでは最小値しか取り出すことが出来ません。では最大値の時はどうするかというと、各要素に-1をかけた上で最小値を取り出していきます。
+# 以下のコードではmap関数で各要素を-1倍していますが、実際に問題を解く際には入力時に-1した方が高速です。
+a = [1, 6, 8, 0, -1]
+a = list(map(lambda x: x*(-1), a))  # 各要素を-1倍
+print(a)
+
+heapq.heapify(a)
+print(heapq.heappop(a)*(-1))  # 最大値の取り出し
+print(a)
+# 出力
+# [-8, -6, -1, 0, 1]
+# 8
+# [-6, 0, -1, 1]
+
+
+# 大きい順に３つ取得
 print(heapq.nlargest(3, l))
 # [23, 18, 7]
 print(heapq.nsmallest(3, l))
 # [-10, -1, 3]
 print(l)
 # [3, 6, 7, -1, 23, -10, 18]
+
+
+# heapqを使うべき場面 まとめ
+# ソートされていないリストから小さい順にK個の値を取り出したい場合の計算量は
+# sort: O(NlogN)
+# heapq: O(N+KlogN)
+# となるので、Kの数（取り出したい数）に応じて使い分けるべきです。
+
+# K=1の場合: min
+# KがNより十分小さいの場合: heapq
+# KとNがほぼ等しい場合: sort
+# ただし、後述するように、数を取り出す途中で挿入も発生する場合はheapqを使うべきです。
 
 
 # ------------------------------------------
@@ -150,6 +203,20 @@ print(d)
 # defaultdict(<class 'list'>, {'a': ['a'], 'b': ['b'], 'c': ['c']})
 # d.get('a') # getでもvalueを取得できる
 # ['a']
+
+
+# ------------------------------------------
+# OrderedDict
+# ------------------------------------------
+# Pythonの辞書（dict型オブジェクト）は要素の順番を保持しない。OrderedDictは追加した順番通り、要素を保持してくれる
+od = collections.OrderedDict()
+
+od['k1'] = 1
+od['k3'] = 3
+od['k2'] = 2
+print(od)
+# OrderedDict([('k1', 1), ('k3', 3), ('k2', 2)])
+
 
 
 # ------------------------------------------
@@ -366,3 +433,41 @@ set(["a", "b"]) <= set(a)
 # True
 set(["a", "d"]) <= set(a)
 # False
+
+
+# ---------------------------------------------------------------------------
+# math.sqrt(X) は X ** 0.5と一緒
+# ---------------------------------------------------------------------------
+X = 2
+math.sqrt(X)
+# 1.4142135623730951
+X**0.5
+# 1.4142135623730951
+
+
+# ---------------------------------------------------------------------------------------------
+# 集合はset。削除はdiscard。追加はadd(複数はupdate)。重複した値を追加しても、重複した値は追加されない。
+# ---------------------------------------------------------------------------------------------
+# 配列や辞書よりsetが早い。(集合の場合の削除は常にdiscard使っとけばいいと思う)
+a = {'apple', 'lemon', 'peach'}
+a.remove('apple')
+print(a)
+# {'lemon', 'peach'}
+
+# discardもremoveと同じく指定した値を削除できるが、集合に値が存在しなくてもエラーにならない。(removeはエラーになる。)
+# 集合の場合は常にdiscard使っとけばいいと思う。
+a.discard('apple')
+print(a)
+# {'lemon', 'peach'}
+
+# next(iter(setのオブジェクト))で集合の最初の値が取得できる
+next(iter(a))
+# 'lemon'
+
+
+# update()メソッドの引数にリストやタプルなどを指定することで複数の要素を一度にまとめて追加することができます。
+# set.update(追加するコレクション)
+vals = {1, 2, 3}
+vals.update([1, 4])
+print(vals)
+# {1, 2, 3, 4}
