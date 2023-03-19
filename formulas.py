@@ -1,4 +1,7 @@
 # 入力をint型を要素とした配列として受け取る
+import functools
+import operator
+from collections import deque
 import math
 import collections
 from collections import defaultdict
@@ -149,6 +152,73 @@ print(l.index('a'))
 # 0
 print(l.index('c'))
 # 2
+
+
+# --------------------------------------------------------------------------
+# deque(リストの両端の追加・取り出しを頻繁に行う場合はdequeの方が圧倒的に早い)
+# --------------------------------------------------------------------------
+# 以下、リストとdequeの使い分け
+# 要素の追加・取り出し（削除）・アクセス（取得）が両端のみ → deque
+# 両端以外の要素に頻繁にアクセス → リスト
+
+d = deque()
+print(d)
+# deque([])
+print(type(d))
+# <class 'collections.deque'>
+d = deque(['m', 'n'])
+print(d)
+# deque(['m', 'n'])
+
+# 要素の追加: append(), appendleft(), extend(), extendleft(), insert()
+# append()は末尾（右側）、appendleft()は先頭（左側）に要素を追加する。
+
+# append -> １つ追加
+d.append('o')
+print(d)
+# deque(['m', 'n', 'o'])
+d.appendleft('l')
+print(d)
+# deque(['l', 'm', 'n', 'o'])
+
+# extend()は末尾、extendleft()は先頭にリストなどのイテラブルオブジェクトの要素をすべて追加する。
+# extendleft()では引数に指定したイテラブルの要素の順番が逆転して連結されるので注意。dequeの先頭にイテラブルの要素を順番に追加していくイメージ。
+# extend -> 複数追加
+d.extend(['p', 'q'])
+print(d)
+# deque(['l', 'm', 'n', 'o', 'p', 'q'])
+d.extendleft(['k', 'j'])
+print(d)
+
+# insert()で途中に要素を追加することもできる。第一引数に位置、第二引数に追加する値を指定する。
+# 第一引数に負の値を指定すると末尾からの位置になる。また、存在しない位置（範囲外の位置）を指定した場合は先頭か末尾に追加される。
+d.insert(3, 'XXX')
+print(d)
+# deque(['j', 'k', 'l', 'XXX', 'm', 'n', 'o', 'p', 'q'])
+
+
+# 要素の削除: pop(), popleft(), remove(), clear()
+# pop()は末尾（右側）、popleft()は先頭（左側）から要素をひとつ削除し、その値を返す。リストのpop()と異なり、引数に位置を指定することはできない。
+d = deque(['a', 'b', 'c', 'b', 'd'])
+print(d.pop())
+# d
+print(d)
+# deque(['a', 'b', 'c', 'b'])
+print(d.popleft())
+# a
+print(d)
+# deque(['b', 'c', 'b'])
+# remove()は引数に指定した値と等しい最初の要素を削除する。該当する要素が複数あっても削除されるのは最初の要素のみ。該当する要素がない場合はエラーとなる。
+d.remove('b')
+print(d)
+# deque(['c', 'b'])
+
+# 要素全体をローテート: rotate()
+# リストにはないメソッドとしてrotate()がある。デフォルトでは右に1個ずつ要素がローテート（スクロール）する。
+d = deque(['a', 'b', 'c', 'd', 'e'])
+d.rotate()
+print(d)
+# deque(['e', 'a', 'b', 'c', 'd'])
 
 
 # ------------------------------------------
@@ -471,3 +541,14 @@ vals = {1, 2, 3}
 vals.update([1, 4])
 print(vals)
 # {1, 2, 3, 4}
+
+
+# ---------------------------------------------------------------------------------------------
+# リストの中身を全て掛け算する
+# ---------------------------------------------------------------------------------------------
+list1 = [1, 3, 4, 10, 4, 45, 90, 100]
+print(list1)
+#  [1, 3, 4, 10, 4, 45, 90, 100]
+# reduce()で要素の掛け算を行う
+print(functools.reduce(operator.mul, list1))
+# 194400000
