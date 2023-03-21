@@ -552,3 +552,15 @@ print(list1)
 # reduce()で要素の掛け算を行う
 print(functools.reduce(operator.mul, list1))
 # 194400000
+
+
+# --------------------------------------------------
+# evalとexec
+# --------------------------------------------------
+# 参照：https://qiita.com/kyoshidajp/items/57ae371b3f5d8a84fb13
+# eval は第1引数を式として評価します。次は簡単な例です。
+eval('1 + 2')
+# 3
+# exec は第1引数を文として実行します。次は簡単な例です。
+exec('a = 1 + 2')
+# None (execは代入も可能。そのときはNoneを返す（値を返さない）)
