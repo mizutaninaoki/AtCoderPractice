@@ -239,6 +239,11 @@ print(type('string') is int)
 str.isdecimal()
 # 文字列が数字か判定
 str.isdigit()
+# (例）
+"1".isdigit()
+True
+"a".isdigit()
+False
 # 文字列が数を表す文字か判定
 str.isnumeric()
 # 文字列が英字か判定
@@ -564,3 +569,24 @@ eval('1 + 2')
 # exec は第1引数を文として実行します。次は簡単な例です。
 exec('a = 1 + 2')
 # None (execは代入も可能。そのときはNoneを返す（値を返さない）)
+
+
+# --------------------------------------------------
+# iter, next
+# --------------------------------------------------
+season = ['Spring', 'Summer', 'Fall', 'Winter']
+iter_season = iter(season)
+print(type(iter_season))  # 型を表示して確認
+#  <class 'list_iterator'>
+print(next(iter_season))  # 1番目のイテレータを表示後、次のイテレータに進む
+# Spring
+# Fall
+# Winter
+next(iter_season)  # 次のイテレータに進む
+
+# イテレータを１つずつ取り出して表示
+for i in iter_season:
+    print(i)
+# Spring
+# Fall
+# Winter
