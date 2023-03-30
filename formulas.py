@@ -590,3 +590,11 @@ for i in iter_season:
 # Spring
 # Fall
 # Winter
+
+
+# --------------------------------------------------
+# startswith
+# --------------------------------------------------
+str1 = 'あいうえお'
+print(str1.startswith('あいう'))  # True
+print(str1.startswith('あいえ'))  # False
