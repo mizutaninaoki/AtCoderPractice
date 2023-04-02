@@ -1,4 +1,6 @@
 # 入力をint型を要素とした配列として受け取る
+import sys
+import string
 import functools
 import operator
 from collections import deque
@@ -252,6 +254,8 @@ str.isalpha()
 str.isalnum()
 # 文字列がASCII文字か判定
 str.isascii()
+# 文字列が空白かどうか
+str.isspace()
 
 
 # ------------------------------------------
@@ -509,6 +513,17 @@ set(["a", "b"]) <= set(a)
 set(["a", "d"]) <= set(a)
 # False
 
+# -------------------------------------------
+# dict.fromkeys()でも重複を取り除ける
+# -------------------------------------------
+list_test1 = [5, 10, 5, 10, 2, 1, 3, 4, 6]
+list_test2 = ['田中', '大杉', '田中', '本宮', '岡田', '岡本', '小林', '村尾']
+list_test1 = list(dict.fromkeys(list_test1))
+print(list_test1)
+# [5, 10, 2, 1, 3, 4, 6]
+list_test2 = list(dict.fromkeys(list_test2))
+print(list_test2)
+# ['田中', '大杉', '本宮', '岡田', '岡本', '小林', '村尾']
 
 # ---------------------------------------------------------------------------
 # math.sqrt(X) は X ** 0.5と一緒
@@ -660,3 +675,73 @@ bin(3)[2:]
 # "{0:032b}".format(n)を使う
 "{0:032b}".format(3)
 # '00000000000000000000000000000011'
+
+
+# -------------------------------------------
+# 関数内でのyieldとreturnの違いは以下URLを見る
+# -------------------------------------------
+# http://ailaby.com/yield/
+
+# yield fromについては以下動画内で使っているところがあるので見る
+# https://www.youtube.com/watch?v=iSE_JQY-CcM&list=PLq-JeSNkOKBRtkNb9QeptJuvE_CwD0NKR&index=3
+
+
+# -------------------------------------------
+# operator.iremgetter()
+# -------------------------------------------
+# オブジェクトの要素を取得: operator.itemgetter()
+# operator.itemgetter()は対象となるオブジェクトの要素を取得する呼び出し可能オブジェクトを生成する。
+# [xxx]のようなインデックス指定に相当する処理を実行できる。
+
+l = [0, 10, 20, 30, 40, 50]
+print(l[3])
+# 30
+
+f = operator.itemgetter(3)
+print(f(l))
+# 30
+
+tup = [("a", 1), ("b", 2), ("c", 3)]
+max(tup, key=operator.itemgetter(1))  # 要素のインデックスの１番目をキーにして、最大の値を取得
+# ('c', 3)
+
+
+# -------------------------------------------
+# divmod()
+# -------------------------------------------
+# Pythonのdivmodで割り算の商と余りを同時に取得
+# Pythonでは、//で整数の商、%で余り（剰余、mod）が算出できる。
+# 整数の商とあまりの両方が欲しいときは組み込み関数divmod()が便利。
+q = 10 // 3
+mod = 10 % 3
+print(q, mod)
+# 3 1
+
+# divmod(a, b)は(a // b, a % b)のタプルを返す。
+# それぞれをアンパックして取得できる。
+q, mod = divmod(10, 3)
+print(q, mod)
+# 3 1
+
+
+# -------------------------------------------
+# 英文字(a~z、A~Z)、数字(0~9)を取得
+# -------------------------------------------
+string.ascii_lowercase
+# 'abcdefghijklmnopqrstuvwxyz'
+string.ascii_uppercase
+# 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+string.ascii_letters
+# 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+# string.digits
+'0123456789'
+
+
+# -------------------------------------------
+# sys.maxsise(今のPCで扱えるintの最大値の数を返す)
+# -------------------------------------------
+# Python3の整数int型
+# Python3のint型はPython2のlong型に相当し、決まった最大値・最小値の制限はない。
+# sys.maxsizeはint型の最大値（上限）ではなく、メモリの許す限りさらに大きな値を扱うことが可能。
+sys.maxsize
+# 9223372036854775807
