@@ -1,24 +1,8 @@
-# see: https://leetcode.com/problems/valid-parentheses/
-from collections import Counter
-
-
-class Solution:
-    def isValid(self, s: str) -> bool:
-      d = {'(': ')', '{': '}', '[': ']'}
-      stack = []
-      for i in s:
-        if i in d:
-          stack.append(i)
-        elif len(stack) == 0 or d[stack.pop()] != i:
-          return False
-      return len(stack) == 0
-
-
-# see: https://app.codility.com/programmers/lessons/7-stacks_and_queues/brackets/
-# Codilityの問題
+# 100%
 def solution(S):
     if len(S) == 0:
-        return 0
+        # 空文字が渡ってきた時は、1を返す。（かっことか何もなく、何もルールに違反していないため）
+        return 1
 
     d = {"{": "}", "[": "]", "(": ")"}
     stack = []
