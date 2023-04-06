@@ -14,7 +14,7 @@ from typing import List
 
 
 def get_max_min_sequence_sum(numbers: List[int], operator=max) -> int:
-    result_sequence, sum_sequence = 0, 0
+    result_sequence, sum_sequence = float("-inf"), float("-inf")
     for num in numbers:
         # 今回の値(num)+今までの合計が今回の値(num)より大きければsum_sequenceに上書き。
         # 小さければ、ここで今までの合計をリセットして、sum_sequenceには今回の値(num)を代入する

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from codes.L06_MaxProductOfThree import solution
+from lessons.L06_max_product_of_three import solution
 
 
 class MaxProductOfThreeTest(TestCase):

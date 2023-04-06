@@ -1,5 +1,5 @@
 from unittest import TestCase
-from codes.L06_Distinct import solution
+from lessons.L06_distinct import solution
 
 
 class DistinctTest(TestCase):
