@@ -19,6 +19,7 @@ from itertools import groupby
 from math import ceil, cos, floor, gcd, radians, sin, tan
 from sys import setrecursionlimit
 setrecursionlimit(10 ** 8)
+# sys.setrecursionlimit(1 << 20) # これでもいいっぽい
 
 # 内包表記での辞書生成
 d = {x: i for i, x in enumerate(["a", "c", "b"], 1)}

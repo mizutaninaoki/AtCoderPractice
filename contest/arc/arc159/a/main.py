@@ -15,12 +15,6 @@
 #         done = True
 #         return cnt
 
-#     # print("aaaaaaaaaaaaa")
-#     # print(A[tmp_s][tmp_t] == 1)
-#     print(tmp_s, tmp_t)
-#     # print(cnt)
-#     print("----------")
-
 #     if tmp_s < n*m and tmp_t < n*m and A[tmp_s][tmp_t] == 0 and A[tmp_s][tmp_t] == 0:
 #         print(-1)
 
