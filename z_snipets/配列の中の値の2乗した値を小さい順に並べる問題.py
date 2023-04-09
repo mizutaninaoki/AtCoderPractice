@@ -1,3 +1,4 @@
+# see: https://leetcode.com/problems/squares-of-a-sorted-array/description/
 # O(n)なやり方。queを使って、両端の数字を大きい順に並べて、最後に逆順にするやり方
 class Solution:
     def sortedSquares(self, nums: List[int]) -> List[int]:
