@@ -13,7 +13,7 @@
 # ---------------------------------
 class Solution:
     # recursively
-    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         res = []
         self.helper(root, res)
         return res

@@ -1,3 +1,4 @@
+# see: https://leetcode.com/problems/binary-tree-postorder-traversal/description/
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -13,13 +14,28 @@
 # ---------------------------------
 class Solution:
     # recursively
-    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         res = []
         self.helper(root, res)
         return res
 
     def helper(self, root, res):
         if root:
-            res.append(root.val)  # rootのvalを追加
             self.helper(root.left, res)  # 左の葉へ移動
             self.helper(root.right, res)  # 右の葉へ移動
+            res.append(root.val)  # rootのvalを追加
+
+# メソッド名をdfsに変更したバージョン(defはclass Solutionの中に移動)
+
+
+class Solution:
+    # recursively
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def dfs(root, res):
+            if root:
+                dfs(root.left, res)  # 左の葉へ移動
+                dfs(root.right, res)  # 右の葉へ移動
+                res.append(root.val)  # rootのvalを追加
+        res = []
+        dfs(root, res)
+        return res

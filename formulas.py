@@ -34,6 +34,31 @@ print(list(itertools.accumulate(l)))
 # [1, 3, 6, 10, 15, 21]
 
 # ------------------------------------------
+# split()
+# ------------------------------------------
+# 文字列を指定した条件に沿って分割して配列にする
+# 空白文字で分割
+s1 = 'atmarkit deep\tinsider\nforum'
+r = s1.split()  # 区切りを指定しなければ、タブ、改行なども空白文字として扱われる
+print(r)
+# ['atmarkit', 'deep', 'insider', 'forum']
+
+# 指定した文字を区切りとする
+s2 = 'kawasaki, isshiki, endo, shimada'
+r = s2.split(',')  # カンマ「,」を区切りに指定
+print(r)
+# ['kawasaki', ' isshiki', ' endo', ' shimada']
+r = s2.split(', ')  # カンマ＋空白文字を区切りに指定
+print(r)
+# ['kawasaki', 'isshiki', 'endo', 'shimada']
+
+# 分割回数を指定
+r = s2.split(', ', 2)  # 最大分割回数を2回と指定
+print(r)
+# ['kawasaki', 'isshiki', 'endo, shimada']
+
+
+# ------------------------------------------
 # unicodeコードポイントからの変換、還元
 # ------------------------------------------
 # アルファベットの番号(「ord」でunicodeからアルファベットへ変換。「chr」でunicodeからアルファベットに復元)
