@@ -23,3 +23,15 @@ class Solution:
             self.helper(root.left, res)  # 左の葉へ移動
             res.append(root.val)  # rootのvalを追加
             self.helper(root.right, res)  # 右の葉へ移動
+
+
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def dfs(root, res):
+            if root:
+                dfs(root.left, res)  # 左の葉へ移動
+                res.append(root.val)  # rootのvalを追加
+                dfs(root.right, res)  # 右の葉へ移動
+        res = []
+        dfs(root, res)
+        return res
