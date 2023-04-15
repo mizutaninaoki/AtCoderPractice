@@ -1,3 +1,4 @@
+# see: https://leetcode.com/problems/word-search/
 # 他者の解答(DFS)
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
