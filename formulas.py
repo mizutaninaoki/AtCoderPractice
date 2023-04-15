@@ -94,7 +94,7 @@ for (x, y) in zip('abc', '12'):
 # b 2
 # zipと似たzip_longestという関数も利用できます。 zip_longestはzipと異なり、最長のイテラブルの長さのイテレータを作成します。
 # 最長のイテラブル以外のものについて、長さを超えた場合の要素はデフォルトではNoneが返ってきます。None以外の他の値を返すようにしたい場合はfillvalueという引数を与えます。
-for (x, y) in itertools.zip_longest('abc', '12', fillvalue='O'):
+for (x, y) in itertools.zip_longest('abc', '12', fillvalue='0'):
     print(x, y)
 # a 1
 # b 2
@@ -948,3 +948,13 @@ def my_lcm(x, y):
 
 print(my_lcm(6, 4))
 # 12
+
+
+# -------------------------------------------------------------------------------------------------
+# itertools.chain.from_iterable() ※ ３次元以上のリストはfrom_iterable()では平坦化(flatten)できない。
+# -------------------------------------------------------------------------------------------------
+# 2次元のリストを平坦化(flatten)
+# リストを要素として持つリスト（2次元リスト）を平坦化する場合、標準ライブラリのitertoolsのitertools.chain.from_iterable()を使う方法がある。
+l_2d = [[0, 1], [2, 3]]
+print(list(itertools.chain.from_iterable(l_2d)))
+# [0, 1, 2, 3]
