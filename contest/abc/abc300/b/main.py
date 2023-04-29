@@ -4,9 +4,6 @@
 # A = [input() for _ in range(h)]
 # B = [input() for _ in range(h)]
 
-# # print(A)
-# # ['..#',_'...',_'.#.',_'...']
-
 # counter_a = Counter("".join(A))
 # counter_b = Counter("".join(B))
 
