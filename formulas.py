@@ -1,4 +1,8 @@
 # 入力をint型を要素とした配列として受け取る
+import re
+import calendar
+import pprint
+import textwrap
 import sys
 import string
 import functools
@@ -467,6 +471,19 @@ for v in itertools.permutations(l, 2):
 # ('d', 'c')
 
 
+# ------------------------------------------
+# x,y,zの３つの数以下の値の組み合わせをリストで作る
+# ------------------------------------------
+# see: https://www.hackerrank.com/challenges/list-comprehensions/problem?isFullScreen=true
+x = int(input())  # 1
+y = int(input())
+z = int(input())
+n = int(input())
+
+print([[a, b, c] for a in range(0, x+1) for b in range(0, y+1)
+      for c in range(0, z+1) if a + b + c != n])
+# [[0, 0, 0], [0, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1]]
+
 
 # ------------------------------------------
 # all（少なくとも１つの条件を求めるときはany()を使う）
@@ -570,9 +587,9 @@ for x in lst:
 a = ['a', 'b', 'c']
 set(a)
 # {'c', 'b', 'a'}
-set(["a", "b"]) <= set(a)
+set(["a", "b"]) <= set(a)  # set(["a", "b"])はaの部分和である
 # True
-set(["a", "d"]) <= set(a)
+set(["a", "d"]) <= set(a)  # set(["a", "d"])はaの部分和でない
 # False
 
 
@@ -591,7 +608,23 @@ print(s2 - s1)
 # {5, 6}
 print(s1 ^ s2)  # 排他的論理和
 # {1, 2, 5, 6}
+# s1.symmetric_difference(s2)でも排他的論理和を実現できる
+print(s1.symmetric_difference(s2))
+# {1, 2, 5, 6}
 
+
+# ---------------------------------------------------------------------------
+# 上位集合か判定: >=演算子, issuperset()
+# ---------------------------------------------------------------------------
+# ある集合が別の集合の上位集合かを判定するには、>=演算子またはissuperset()を使う。
+
+s1 = {0, 1}
+s2 = {0, 1, 2, 3}
+
+print(s2 >= s1)
+# True
+print(s2.issuperset(s1))
+# True
 
 # ---------------------------------------------------------------------------
 # frozenset(集合の中に集合を入れる時に使う)
@@ -998,3 +1031,183 @@ print(math.trunc(-12.345))
 # -12
 print(math.trunc(-12.567))
 # -12
+
+
+# -------------------------------------------------------------------------------------------------
+# rjust(), center(), ljust()
+# -------------------------------------------------------------------------------------------------
+
+
+# 右寄せ（右揃え）: rjust()
+# 文字列を右寄せ（右揃え）するにはrjust()メソッドを使う。
+# 第一引数に生成する文字列の文字数を指定する。デフォルトでは空白（スペース）で埋められる。
+s = 'abc'
+print(s.rjust(8))
+#      abc
+print(type(s.rjust(8)))
+# <class 'str'>
+print(s.rjust(8, '*'))
+# *****abc
+
+
+# 中央寄せ（中央揃え）: center()
+# 文字列を中央寄せ（中央揃え）するにはcenter()メソッドを使う。
+# 使い方はrjust()と同じ。埋める文字数が奇数の場合は右側が1文字多くなる。
+s = 'abc'
+print(s.center(8))
+#   abc
+print(s.center(8, '*'))
+# **abc***
+print(s.center(9, '*'))
+# ***abc***
+
+# 数値などに適用する場合
+# 整数intや浮動小数点数floatといった数値など、文字列以外のオブジェクトを右寄せ、中央寄せ、左寄せしたい場合は、str()で文字列に変換してから各メソッドを呼び出す。
+i = 123
+print(type(i))
+# <class 'int'>
+print(str(i).rjust(8, '*'))
+# *****123
+
+
+# -------------------------------------------------------------------------------------------------
+# textwrap()
+# 文字列を折り返し（改行）: wrap(), fill()
+# -------------------------------------------------------------------------------------------------
+
+s = "Python can be easy to pick up whether you're a first time programmer or you're experienced with other languages"
+
+s_wrap_list = textwrap.wrap(s, 40)
+print(s_wrap_list)
+# ['Python can be easy to pick up whether', "you're a first time programmer or you're", 'experienced with other languages']
+
+# 得られたリストを使って'\n'.join(list)とすると改行コード\nで改行された文字列が取得できる。
+print('\n'.join(s_wrap_list))
+# Python can be easy to pick up whether
+# you're a first time programmer or you're
+# experienced with other languages
+
+
+# 関数fill()は、リストではなく改行された文字列を返す。上の例のようにwrap()のあとで'\n'.join(list)するのと同じ。
+# リストが必要なくターミナルなどに固定幅の文字列を出力したいときにはこちらのほうが便利。
+print(textwrap.fill(s, 40))
+# Python can be easy to pick up whether
+# you're a first time programmer or you're
+# experienced with other languages
+
+
+# -----------------------------
+# itertools.product()
+# -----------------------------
+# 標準ライブラリのitertoolsモジュールをインポートして使う。標準ライブラリなので追加のインストールは不要。pprintは結果を見やすくするために使う。
+# 引数に2つのリストを指定するとitertools.product型のオブジェクトが返る。itertools.product型はイテレータなので、それをそのままprint()しても中身は出力されない。
+l1 = ['a', 'b', 'c']
+l2 = ['X', 'Y', 'Z']
+p = itertools.product(l1, l2)
+print(p)
+# <itertools.product object at 0x1026edd80>
+print(type(p))
+# <class 'itertools.product'>
+
+# forループで列挙。各リストの要素の組み合わせがタプルで取得できる。最後まで辿り着いたイテレータを再度forループでまわしても何も出力されないので注意。
+for v in p:
+    print(v)
+# ('a', 'X')
+# ('a', 'Y')
+# ('a', 'Z')
+# ('b', 'X')
+# ('b', 'Y')
+# ('b', 'Z')
+# ('c', 'X')
+# ('c', 'Y')
+# ('c', 'Z')
+
+for v in p:
+    print(v)
+
+# タプルではなくそれぞれの要素を別々に取得することも可能。
+# 関連記事: Pythonでタプルやリストをアンパック（複数の変数に展開して代入）
+for v1, v2 in itertools.product(l1, l2):
+    print(v1, v2)
+# a X
+# a Y
+# a Z
+# b X
+# b Y
+# b Z
+# c X
+# c Y
+# c Z
+
+
+# ----------------------------
+# collections.namedtuple()
+# ----------------------------
+# collections.namedtuple()で構造体が作れる(RubyのStruct)
+# named tupleの定義
+Point = collections.namedtuple("Point", ["x", "y"])
+# インスタンス化
+p1 = Point(10, 20)
+p2 = Point(x=30, y=40)
+print(f"p1 = {p1}")
+print(f"p2 = {p2}")
+# フィールド名で値へアクセス
+print(f"p1.x = {p1.x}, p1.y = {p1.y}")
+print(f"p2.x = {p2.x}, p1.y = {p2.y}")
+# アンパック代入
+x1, y1 = p1
+x2, y2 = p2
+print(f"x1 = {x1}, y1 = {y1}")
+print(f"x2 = {x2}, y2 = {y2}")
+# 【実行結果】
+# p1 = Point(x=10, y=20)
+# p2 = Point(x=30, y=40)
+# p1.x = 10, p1.y = 20
+# p2.x = 30, p1.y = 40
+# x1 = 10, y1 = 20
+# x2 = 30, y2 = 40
+
+
+# ----------------------------
+# calenderモジュール(カレンダーをプレーンテキストで取得・出力)
+# ----------------------------
+# 月間カレンダー
+# calendar.month()で任意の年・月のカレンダーを文字列（str型）で取得できる。
+
+print(calendar.month(2019, 1))
+#     January 2019
+# Mo Tu We Th Fr Sa Su
+#     1  2  3  4  5  6
+#  7  8  9 10 11 12 13
+# 14 15 16 17 18 19 20
+# 21 22 23 24 25 26 27
+# 28 29 30 31
+#
+
+print(type(calendar.month(2019, 1)))
+# <class 'str'>
+
+
+# ----------------------------
+# 複数の特定のエラーをexceptで捕捉する場合
+# ----------------------------
+try:
+    a, b = map(int, input().split())
+    print(a//b)
+except (ZeroDivisionError, ValueError) as e:
+    print('Error Code:', e)
+
+
+# ----------------------------
+# re.compile()
+# ----------------------------
+# 正規表現パターンオブジェクトのメソッドで実行
+# re.compile()を使うと、正規表現パターン文字列をコンパイルして正規表現パターンオブジェクトを作成できる。
+# ※ おかしな正規表現パターンをre.compileの引数に渡すとエラーになる
+p = re.compile(r'([a-z]+)@([a-z]+)\.com')
+
+print(p)
+# re.compile('([a-z]+)@([a-z]+)\\.com')
+
+print(type(p))
+# <class 're.Pattern'>
