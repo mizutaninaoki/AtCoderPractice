@@ -59,6 +59,7 @@ print(r)
 # 分割回数を指定
 r = s2.split(', ', 2)  # 最大分割回数を2回と指定
 print(r)
+# わかりにくいが、endoとshimadaが１つの文字で繋がったままになっている
 # ['kawasaki', 'isshiki', 'endo, shimada']
 
 
@@ -1211,3 +1212,42 @@ print(p)
 
 print(type(p))
 # <class 're.Pattern'>
+
+
+# ----------------------------------------------------------------
+# Pythonでリストの連続する同じ値の要素をグループ化（itertools.groupby）
+# ----------------------------------------------------------------
+# Pythonで、リストなどのイテラブルオブジェクトの連続（隣接）する同じ値の要素をまとめてグループ化するには、標準ライブラリitertoolsのgroupby()を使う。
+l = [0, 0, 0, 1, 1, 2, 0, 0]
+print([(k, list(g)) for k, g in itertools.groupby(l)])
+# [(0, [0, 0, 0]), (1, [1, 1]), (2, [2]), (0, [0, 0])]
+# 順番（連続する・しない）に関わらず、同じ値の要素の個数を数え上げるにはcollections.Counterを使う。
+for k, g in itertools.groupby(l):
+    print(k, g)
+# 0 <itertools._grouper object at 0x110a26940>
+# 1 <itertools._grouper object at 0x110a2c400>
+# 2 <itertools._grouper object at 0x110aa8f10>
+# 0 <itertools._grouper object at 0x110aa8ee0>
+
+for k, g in itertools.groupby(l):
+    print(k, list(g))
+# 0 [0, 0, 0]
+# 1 [1, 1]
+# 2 [2]
+# 0 [0, 0]
+
+
+# ---------------------------------------------------------------------------------------
+# 入力のインプットが何行あるかわからない状態で、入力が終わるまで読み込み続ける場合
+# ---------------------------------------------------------------------------------------
+# see: https://qiita.com/kyuna/items/8ee8916c2f4e36321a1c
+# パターン１
+for e in sys.stdin:
+    print("ここに処理を書く")
+
+# パターン２
+while True:
+    # 「input」というメソッドがpythonに存在しているため、「input_」にしている
+    input_ = sys.stdin.readline()
+    if input_ == '':
+        break
